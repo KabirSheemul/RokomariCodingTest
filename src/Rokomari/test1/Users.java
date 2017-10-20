@@ -1,7 +1,14 @@
+/*
+ * This class is for maintain Userinfo 
+ */
+
 package Rokomari.test1;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -10,6 +17,7 @@ public class Users {
 	private int user_ttl;
 	public boolean IsLoggedIn=false;
 	private String user_name;
+	private int balance;
 	private int user_index;
 	//private ArrayList<String[]> user
 	Users() {
@@ -51,6 +59,7 @@ public class Users {
 				this.IsLoggedIn=true;
 				this.user_name=user_name;
 				this.user_index=i;
+				this.balance=Integer.parseInt(users[i][2]);
 				return true;
 			}
 		}
@@ -58,6 +67,35 @@ public class Users {
 	}
 	public String getUserName() {
 		return this.user_name;
+	}
+	public int numberOfUsers() {
+		return this.user_ttl;
+	}
+	public int getBalance() {
+		return this.balance;
+	}
+	public void updateUserFile(int price) {
+		this.balance-=price;
+		users[user_index][2]=Integer.toString(this.balance);
+		try {
+			File new_user=new File("resource//newfile.txt");
+			FileOutputStream fos=new FileOutputStream(new_user);
+			BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(fos));
+			for(int i=0;i<this.user_ttl;i++) {
+				String line= users[i][0]+"  "+users[i][1]+"  "+users[i][2];
+				bw.write(line);
+				bw.newLine();
+			}
+			bw.close();
+			
+			//deleting and renaming file name;
+			File old=new File("resource//users.txt");
+			old.delete();
+			new_user.renameTo(old);
+		}
+		catch(IOException e) {
+			
+		}
 	}
 	public static void main(String a[]) {
 		Users user=new Users();

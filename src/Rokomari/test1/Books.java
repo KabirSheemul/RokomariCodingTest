@@ -47,6 +47,12 @@ public class Books {
 			System.out.println(this.books[i][0]+"\t"+this.books[i][1]+"\t"+this.books[i][2]);
 		}
 	}
+	public String[][] getBookList(){
+		return books;
+	}
+	public int numberOfBooks() {
+		return this.book_ttl;
+	}
 	public static void main(String a[]) {
 		Books book=new Books();
 		book.readBookFile();
